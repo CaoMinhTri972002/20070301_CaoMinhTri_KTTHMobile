@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { View, Text, Image, StyleSheet,Pressable } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 
@@ -20,6 +20,9 @@ const DetailBike = () => {
       <Text style={styles.name}>{bike.name}</Text>
       <Text style={styles.price}>{bike.price} $</Text>
       <Text style={styles.description}>{bike.description}</Text>
+      <View>
+       <Pressable style={{borderRadius:10, borderWidth:1, backgroundColor:"red", height:50, width:200, justifyContent:'center', alignItems:'center'}}><Text style={{color:'white'}}>Add to card</Text></Pressable>
+      </View>
     </View>
   );
 };

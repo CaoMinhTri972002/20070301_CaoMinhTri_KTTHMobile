@@ -36,6 +36,17 @@ const BikeList = () => {
     return <Text style={styles.error}>Error: {error}</Text>;
   }
 
+  
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <TouchableOpacity style={{marginLeft:100,height:50, width:200,justifyContent:'center', alignItems:'center', backgroundColor:'red', borderRadius:10, borderWidth:1}} onPress={() => navigation.navigate('AddBike')}>
+          <Text style={styles.addButton}>Thêm xe đạp</Text>
+        </TouchableOpacity>
+      ),
+    });
+  }, [navigation]);
+
   return (
     <FlatList
       data={bikes}
@@ -59,10 +70,12 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowRadius: 4,
     elevation: 2,
+    height: 300,
+    width: 200,
   },
   image: {
-    width: 100,
-    height: 100,
+    width: 150,
+    height: 180,
     marginBottom: 10,
   },
   name: {
@@ -87,6 +100,12 @@ const styles = StyleSheet.create({
   },
   listContainer: {
     paddingBottom: 10,
+  },
+  addButton: {
+    color: 'white',
+    fontSize: 16,
+    paddingRight: 20,
+    fontWeight:'bold'
   },
 });
 
