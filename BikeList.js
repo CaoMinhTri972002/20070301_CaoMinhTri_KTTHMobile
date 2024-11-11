@@ -36,29 +36,32 @@ const BikeList = () => {
     return <Text style={styles.error}>Error: {error}</Text>;
   }
 
-  
-  React.useLayoutEffect(() => {
-    navigation.setOptions({
-      headerRight: () => (
-        <TouchableOpacity style={{marginLeft:100,height:50, width:200,justifyContent:'center', alignItems:'center', backgroundColor:'red', borderRadius:10, borderWidth:1}} onPress={() => navigation.navigate('AddBike')}>
-          <Text style={styles.addButton}>Thêm xe đạp</Text>
-        </TouchableOpacity>
-      ),
-    });
-  }, [navigation]);
-
   return (
-    <FlatList
-      data={bikes}
-      renderItem={renderItem}
-      keyExtractor={(item) => item.id.toString()}
-      contentContainerStyle={styles.listContainer}
-      numColumns={2}
-    />
+    <View style={styles.container}>
+      {/* Nút Add Bike ở trên cùng */}
+      <TouchableOpacity
+        style={styles.addButton}
+        onPress={() => navigation.navigate('AddBike')} // Điều hướng đến AddBikeScreen
+      >
+        <Text style={styles.addButtonText}>Thêm xe đạp</Text>
+      </TouchableOpacity>
+
+      {/* Danh sách xe */}
+      <FlatList
+        data={bikes}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.id.toString()}
+        contentContainerStyle={styles.listContainer}
+        numColumns={2}
+      />
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1, // Đảm bảo container chiếm toàn bộ màn hình
+  },
   itemContainer: {
     margin: 10,
     alignItems: 'center',
@@ -99,13 +102,21 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   listContainer: {
-    paddingBottom: 10,
+    flexGrow: 1, // Làm cho FlatList chiếm hết không gian còn lại
+    paddingBottom: 10, // Đảm bảo có đủ không gian dưới cho danh sách
   },
   addButton: {
+    backgroundColor: 'blue', // Màu nền của nút
+    padding: 15,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 10,
+    margin: 10, // Khoảng cách giữa nút và các phần tử xung quanh
+  },
+  addButtonText: {
     color: 'white',
-    fontSize: 16,
-    paddingRight: 20,
-    fontWeight:'bold'
+    fontSize: 18,
+    fontWeight: 'bold',
   },
 });
 
