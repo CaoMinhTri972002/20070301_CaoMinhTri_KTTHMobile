@@ -1,10 +1,12 @@
 import React, { useEffect } from 'react';
-import { View, Text, FlatList, Image, ActivityIndicator, StyleSheet } from 'react-native';
+import { View, Text, FlatList, Image, ActivityIndicator, StyleSheet, TouchableOpacity } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchBikes } from './bikeSlice';
+import { useNavigation } from '@react-navigation/native';
 
 const BikeList = () => {
   const dispatch = useDispatch();
+  const navigation = useNavigation();
   const bikes = useSelector((state) => state.bikes.list);
   const status = useSelector((state) => state.bikes.status);
   const error = useSelector((state) => state.bikes.error);
@@ -15,21 +17,21 @@ const BikeList = () => {
     }
   }, [status, dispatch]);
 
-  // Hàm render từng item xe đạp
   const renderItem = ({ item }) => (
-    <View style={styles.itemContainer}>
+    <TouchableOpacity
+      style={styles.itemContainer}
+      onPress={() => navigation.navigate('DetailBike', { bikeId: item.id })}
+    >
       <Image source={{ uri: item.image }} style={styles.image} />
       <Text style={styles.name}>{item.name}</Text>
       <Text style={styles.price}>{item.price} $</Text>
-    </View>
+    </TouchableOpacity>
   );
 
-  // Hiển thị loading spinner khi đang tải dữ liệu
   if (status === 'loading') {
     return <ActivityIndicator size="large" color="#0000ff" style={styles.loading} />;
   }
 
-  // Hiển thị lỗi nếu có lỗi xảy raS
   if (status === 'failed') {
     return <Text style={styles.error}>Error: {error}</Text>;
   }
@@ -40,6 +42,7 @@ const BikeList = () => {
       renderItem={renderItem}
       keyExtractor={(item) => item.id.toString()}
       contentContainerStyle={styles.listContainer}
+      numColumns={2}
     />
   );
 };
